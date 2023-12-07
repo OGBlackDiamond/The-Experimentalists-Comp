@@ -8,11 +8,39 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
+#include "driver.cpp"
 
 using namespace vex;
 
 // A global instance of competition
 competition Competition;
+
+
+// external classes
+Driver driver;
+
+
+// toggle variables have to be defined globally for some reason
+bool driveTrainToggle = false;
+
+
+
+// other functions
+
+// function that toggles the drivetrain speed
+void toggleDriveTrain() {
+  driveTrainToggle = !driveTrainToggle;
+}
+
+// sets the toggle functions
+void setToggles() {
+    // toggles the flinger if the A button is pressed
+    Controller2.ButtonA.pressed(toggleFlinger);
+    Controller2.ButtonL1.pressed(toggleArm);
+    Controller2.ButtonR1.pressed(toggleArm);
+    Controller1.ButtonA.pressed(toggleArmHold);
+    Controller1.ButtonB.pressed(toggleDriveTrain);
+}
 
 // define your global instances of motors and other devices here
 
@@ -27,7 +55,8 @@ competition Competition;
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
-
+  // Initializing Robot Configuration. DO NOT REMOVE!
+  vexcodeInit();
   // All activities that occur before the competition starts
   // Example: clearing encoders, setting servo positions, ...
 }
@@ -61,6 +90,9 @@ void autonomous(void) {
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
+
+    driver.driverControl(driveTrainToggle);
+
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo
     // values based on feedback from the joysticks.

@@ -9,6 +9,8 @@
 
 #include "vex.h"
 #include "driver.cpp"
+#include "arm.cpp"
+#include "auto.cpp"
 
 using namespace vex;
 
@@ -19,13 +21,35 @@ competition Competition;
 // external classes
 Driver driver;
 
+Arm arm;
+
+Auto autonomousCode(driver);
 
 // toggle variables have to be defined globally for some reason
 bool driveTrainToggle = false;
+bool flingerToggle = false;
+bool armToggle = false;
+bool armHoldToggle = false;
 
 
 
 // other functions
+
+// function that toggles the flinger
+void toggleFlinger() {
+  flingerToggle = !flingerToggle;
+}
+
+// function that toggles the arm speed
+void toggleArm() {
+  armToggle = !armToggle;
+}
+
+// function that toggles whether the arm will hold iteself up or not
+// this is because the arm sometimes draws too much power, and limits the drivetrain.
+void toggleArmHold() {
+  armHoldToggle = !armHoldToggle;
+}
 
 // function that toggles the drivetrain speed
 void toggleDriveTrain() {
@@ -89,8 +113,9 @@ void autonomous(void) {
 
 void usercontrol(void) {
   // User control code here, inside the loop
+  setToggles();
   while (1) {
-
+    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle);
     driver.driverControl(driveTrainToggle);
 
     // This is the main execution loop for the user control program.

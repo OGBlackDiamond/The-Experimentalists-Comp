@@ -9,6 +9,7 @@ class Arm {
         // set the stopping values and speeds of all the motors
         Arm() {
             turret.setVelocity(100, percent);
+            elbow.setVelocity(70, percent);
             flinger.setVelocity(100, percent);
         }
 

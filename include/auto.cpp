@@ -29,7 +29,7 @@ class Auto {
         //
 
         void move(double distance) {
-            //driveTrain.leftDriveSpinFor(distance);
+            driveTrain.leftDriveSpinFor(distance);
             driveTrain.rightDriveSpinFor(distance);
         }
 

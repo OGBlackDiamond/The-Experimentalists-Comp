@@ -12,7 +12,8 @@ class Auto {
         // defines options for autonomous configuration
 
         void auto1() {
-
+            turn(360);
+            move(360);
         }
 
         void auto2() {
@@ -28,7 +29,7 @@ class Auto {
         //
 
         void move(double distance) {
-            driveTrain.leftDriveSpinFor(distance);
+            //driveTrain.leftDriveSpinFor(distance);
             driveTrain.rightDriveSpinFor(distance);
         }
 

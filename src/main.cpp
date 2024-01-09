@@ -10,7 +10,7 @@
 #include "vex.h"
 #include "driver.cpp"
 #include "arm.cpp"
-#include "auto.cpp"
+//#include "auto.cpp"
 
 using namespace vex;
 
@@ -23,13 +23,16 @@ Driver driver;
 
 Arm arm;
 
-Auto autonomousCode(driver);
+//Auto autonomousCode(driver);
 
 // toggle variables have to be defined globally for some reason
 bool driveTrainToggle = false;
+bool transmissionToggle = false;
 bool flingerToggle = false;
 bool armToggle = false;
 bool armHoldToggle = false;
+bool wing1Toggle = false;
+bool wing2Toggle = false;
 
 
 
@@ -56,6 +59,21 @@ void toggleDriveTrain() {
   driveTrainToggle = !driveTrainToggle;
 }
 
+// function that toggles the drivetrain and transmission functionality
+void toggleTransmission() {
+  transmissionToggle = !transmissionToggle;
+}
+
+// function that toggles one pneumatic flap
+void toggleWing1() {
+  wing1Toggle = !wing1Toggle;
+}
+
+//
+void toggleWing2() {
+  wing2Toggle = !wing2Toggle;
+}
+
 // sets the toggle functions
 void setToggles() {
     // toggles the flinger if the A button is pressed
@@ -64,6 +82,9 @@ void setToggles() {
     Controller2.ButtonR1.pressed(toggleArm);
     Controller1.ButtonA.pressed(toggleArmHold);
     Controller1.ButtonB.pressed(toggleDriveTrain);
+    Controller1.ButtonR2.pressed(toggleWing2);
+    Controller1.ButtonL2.pressed(toggleWing1);
+    Controller1.ButtonRight.pressed(toggleTransmission);
 }
 
 // define your global instances of motors and other devices here
@@ -99,6 +120,7 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+  //autonomousCode.auto1();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -115,8 +137,8 @@ void usercontrol(void) {
   // User control code here, inside the loop
   setToggles();
   while (1) {
-    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle);
-    driver.driverControl(driveTrainToggle);
+    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle, wing1Toggle, wing2Toggle);
+    driver.driverControl(driveTrainToggle, transmissionToggle);
 
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo

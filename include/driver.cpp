@@ -6,9 +6,16 @@ class Driver {
 
   public:
 
-    Driver() {}
+    Driver() {
+        leftBackDrive.setStopping(coast);
+        leftFrontDrive.setStopping(coast);
+        rightBackDrive.setStopping(coast);
+        rightFrontDrive.setStopping(coast);
+        rightTrans.setStopping(coast);
+        leftTrans.setStopping(coast);
+    }
 
-    void driverControl(bool toggleDriveTrain) {
+    void driverControl(bool toggleDriveTrain, bool transmissionToggle) {
         // refresh control stick values
         updateControls(toggleDriveTrain);
         // spin the motors
@@ -18,13 +25,13 @@ class Driver {
     // spins the left drive train for a distance
     void leftDriveSpinFor(double degrees) {
         leftFrontDrive.spinFor(forward, degrees, turns, false);
-        leftBackDrive.spinFor(forward, degrees, turns);
+        leftBackDrive.spinFor(forward, degrees, turns, false);
     }
 
      // spins the left drive train for a distance
     void rightDriveSpinFor(double degrees) {
         rightFrontDrive.spinFor(forward, degrees, turns, false);
-        rightBackDrive.spinFor(forward, degrees, turns);
+        rightBackDrive.spinFor(forward, degrees, turns, false);
     }
 
     // destroys the class object
@@ -43,29 +50,36 @@ class Driver {
 
     // spins all drivetrain motors
     void spinDriveTrain() {
-        rightFrontDrive.spin(forward);
-        rightBackDrive.spin(forward);
-        leftFrontDrive.spin(forward);
-        leftBackDrive.spin(forward);
+        if (transmissionToggle) {
+            rightTrans.spin(forward);
+            leftTrans.spin(forward);
+        } else {
+            rightFrontDrive.spin(forward);
+            rightBackDrive.spin(forward);
+            leftFrontDrive.spin(forward);
+            leftBackDrive.spin(forward);
+        }
     }
 
     // sets the velocity of the right drive train
     void rightDriveVelocity(double rightDrive) {
-        rightFrontDrive.setVelocity(rightDrive, percent);
-        rightBackDrive.setVelocity(rightDrive, percent);
+        rightFrontDrive.setVelocity(transmissionToggle ? 0 : rightDrive, percent);
+        rightBackDrive.setVelocity(transmissionToggle ? 0 : rightDrive, percent);
+        rightTrans.setVelocity(transmissionToggle ? rightDrive : 0, percent);
     }
 
     // sets the velocity of the left drive train
     void leftDriveVelocity(double leftDrive) {
-        leftFrontDrive.setVelocity(leftDrive, percent);
-        leftBackDrive.setVelocity(leftDrive, percent);
+        leftFrontDrive.setVelocity(transmissionToggle ? 0 : leftDrive, percent);
+        leftBackDrive.setVelocity(transmissionToggle ? 0 : leftDrive, percent);
+        leftTrans.setVelocity(transmissionToggle ? leftDrive : 0, percent);
     }
 
     // update the controller values 
     void updateControls(bool driveTrainToggle) {
         // get the current reading from the stick values
-        leftDrive = driveTrainToggle ? Controller1.Axis3.position() * 0.75 : Controller1.Axis3.position();
-        rightDrive = driveTrainToggle ? Controller1.Axis2.position() * 0.75 : Controller1.Axis2.position();
+        rightDrive = driveTrainToggle ? Controller1.Axis3.position() * 0.75 : Controller1.Axis3.position();
+        leftDrive = driveTrainToggle ? Controller1.Axis2.position() * 0.75 : Controller1.Axis2.position();
         // apply them to the current motor velocity
         rightDriveVelocity(rightDrive);
         leftDriveVelocity(leftDrive);

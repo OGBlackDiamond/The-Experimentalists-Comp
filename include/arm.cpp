@@ -9,13 +9,13 @@ class Arm {
         // set the stopping values and speeds of all the motors
         Arm() {
             turret.setVelocity(100, percent);
-            elbow.setVelocity(70, percent);
+            elbow.setVelocity(35, percent);
             flinger.setVelocity(100, percent);
         }
 
 
         // the main function that handles the arm control
-        void manipulatorControl(bool armToggle, bool armHoldToggle,  bool flingerToggle) {
+        void manipulatorControl(bool armToggle, bool armHoldToggle,  bool flingerToggle, bool wing1Toggle, bool wing2Toggle) {
             // make sure the current state of the controller is up to date
             updateControls(armToggle, armHoldToggle);
             // move the motors
@@ -49,6 +49,11 @@ class Arm {
             } else {
                 flinger.stop();
             }
+
+
+            wing1.set(wing1Toggle);
+            wing2.set(wing2Toggle);
+
         }
 
 

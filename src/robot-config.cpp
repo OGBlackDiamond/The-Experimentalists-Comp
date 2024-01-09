@@ -11,14 +11,18 @@ brain  Brain;
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);
 
-motor leftFrontDrive = motor(PORT11, ratio18_1, false);
-motor leftBackDrive = motor(PORT20, ratio18_1, false);
-motor rightFrontDrive = motor(PORT1, ratio18_1, true);
-motor rightBackDrive = motor(PORT10, ratio18_1, true);
+motor leftFrontDrive = motor(PORT11, ratio18_1, true);
+motor leftBackDrive = motor(PORT20, ratio18_1, true);
+motor rightFrontDrive = motor(PORT1, ratio18_1, false);
+motor rightBackDrive = motor(PORT10, ratio18_1, false);
+motor leftTrans = motor(PORTX, ratio18_1, false);
+motor rightTrans = motor(PORTY, ratio18_1, true);
 motor turret = motor(PORT15, ratio18_1, false);
 motor shoulder = motor(PORT6, ratio6_1, false);
 motor elbow = motor(PORT3, ratio18_1, false);
 motor flinger = motor(PORT2, ratio36_1, false);
+digital_out wing1 = digital_out(Brain.ThreeWirePort.C);
+digital_out wing2 = digital_out(Brain.ThreeWirePort.B);
 
 
 // VEXcode generated functions

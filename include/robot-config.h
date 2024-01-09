@@ -10,10 +10,14 @@ extern motor leftFrontDrive;
 extern motor leftBackDrive;
 extern motor rightFrontDrive;
 extern motor rightBackDrive;
+extern motor leftTrans;
+extern motor rightTrans;
 extern motor turret;
 extern motor shoulder;
 extern motor elbow;
 extern motor flinger;
+extern digital_out wing1;
+extern digital_out wing2;
 
 
 /**

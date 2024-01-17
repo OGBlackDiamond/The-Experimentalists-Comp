@@ -11,15 +11,17 @@ class Driver {
         leftFrontDrive.setStopping(coast);
         rightBackDrive.setStopping(coast);
         rightFrontDrive.setStopping(coast);
-        rightTrans.setStopping(coast);
-        leftTrans.setStopping(coast);
+        // rightTrans.setStopping(coast);
+        // leftTrans.setStopping(coast);
     }
 
-    void driverControl(bool toggleDriveTrain, bool transmissionToggle) {
+    void driverControl(bool toggleDriveTrain, bool _transmissionToggle) {
         // refresh control stick values
         updateControls(toggleDriveTrain);
         // spin the motors
         spinDriveTrain();
+        // set the drivetrain toggle
+        transmissionToggle = _transmissionToggle;
     }
 
     // spins the left drive train for a distance
@@ -28,10 +30,10 @@ class Driver {
         leftBackDrive.spinFor(forward, degrees, turns, false);
     }
 
-     // spins the left drive train for a distance
+    // spins the left drive train for a distance
     void rightDriveSpinFor(double degrees) {
         rightFrontDrive.spinFor(forward, degrees, turns, false);
-        rightBackDrive.spinFor(forward, degrees, turns, false);
+        rightBackDrive.spinFor(forward, degrees, turns, true);
     }
 
     // destroys the class object
@@ -48,11 +50,14 @@ class Driver {
     bool hookUp;
     bool hookDown;
 
+    // transmission toggle variable
+    bool transmissionToggle;
+
     // spins all drivetrain motors
     void spinDriveTrain() {
         if (transmissionToggle) {
-            rightTrans.spin(forward);
-            leftTrans.spin(forward);
+            // rightTrans.spin(forward);
+            // leftTrans.spin(forward);
         } else {
             rightFrontDrive.spin(forward);
             rightBackDrive.spin(forward);
@@ -65,14 +70,14 @@ class Driver {
     void rightDriveVelocity(double rightDrive) {
         rightFrontDrive.setVelocity(transmissionToggle ? 0 : rightDrive, percent);
         rightBackDrive.setVelocity(transmissionToggle ? 0 : rightDrive, percent);
-        rightTrans.setVelocity(transmissionToggle ? rightDrive : 0, percent);
+        // rightTrans.setVelocity(transmissionToggle ? rightDrive : 0, percent);
     }
 
     // sets the velocity of the left drive train
     void leftDriveVelocity(double leftDrive) {
         leftFrontDrive.setVelocity(transmissionToggle ? 0 : leftDrive, percent);
         leftBackDrive.setVelocity(transmissionToggle ? 0 : leftDrive, percent);
-        leftTrans.setVelocity(transmissionToggle ? leftDrive : 0, percent);
+        // leftTrans.setVelocity(transmissionToggle ? leftDrive : 0, percent);
     }
 
     // update the controller values 

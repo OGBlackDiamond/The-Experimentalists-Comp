@@ -12,8 +12,17 @@ class Auto {
         // defines options for autonomous configuration
 
         void auto1() {
-            turn(360);
-            move(360);
+            setDriveVelocity(25);
+            move(14);
+            turn(50);
+            setDriveVelocity(100);
+            move(13);
+            setDriveVelocity(25);
+            move(-13);
+            setDriveVelocity(100);
+            move(13.5);
+            setDriveVelocity(25);
+            move(-12);
         }
 
         void auto2() {
@@ -29,13 +38,13 @@ class Auto {
         //
 
         void move(double distance) {
-            driveTrain.leftDriveSpinFor(distance);
-            driveTrain.rightDriveSpinFor(distance);
+            driveTrain.leftDriveSpinFor(distance / 12.25);
+            driveTrain.rightDriveSpinFor(distance / 12.25);
         }
 
         void turn(double degrees) {
-            driveTrain.leftDriveSpinFor(degrees);
-            driveTrain.rightDriveSpinFor(degrees * -1);
+            driveTrain.leftDriveSpinFor(degrees / 90);
+            driveTrain.rightDriveSpinFor((degrees / 90) * -1);
         }
 
         void turnTurret(double deg) {
@@ -54,6 +63,13 @@ class Auto {
             turret.setStopping(hold);
             shoulder.setStopping(hold);
             elbow.setStopping(hold);
+        }
+
+        void setDriveVelocity(int driveSpeed) {
+            leftBackDrive.setVelocity(driveSpeed, percent);
+            leftFrontDrive.setVelocity(driveSpeed, percent);
+            rightBackDrive.setVelocity(driveSpeed, percent);
+            rightFrontDrive.setVelocity(driveSpeed, percent);
         }
 
         //

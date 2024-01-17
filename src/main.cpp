@@ -10,7 +10,7 @@
 #include "vex.h"
 #include "driver.cpp"
 #include "arm.cpp"
-//#include "auto.cpp"
+#include "auto.cpp"
 
 using namespace vex;
 
@@ -23,7 +23,7 @@ Driver driver;
 
 Arm arm;
 
-//Auto autonomousCode(driver);
+Auto autonomousCode(driver);
 
 // toggle variables have to be defined globally for some reason
 bool driveTrainToggle = false;
@@ -120,7 +120,7 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  //autonomousCode.auto1();
+  autonomousCode.auto1();
 }
 
 /*---------------------------------------------------------------------------*/

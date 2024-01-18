@@ -15,6 +15,7 @@ class Driver {
         // leftTrans.setStopping(coast);
     }
 
+    // this method will be called in the main method
     void driverControl(bool toggleDriveTrain, bool _transmissionToggle) {
         // refresh control stick values
         updateControls(toggleDriveTrain);

@@ -7,6 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+// grab all external files
 #include "vex.h"
 #include "driver.cpp"
 #include "arm.cpp"
@@ -22,7 +23,7 @@ competition Competition;
 Driver driver;
 
 Arm arm;
-
+// we pass in the driver class here, so that the autonomous code can access the drivetrain methods
 Auto autonomousCode(driver);
 
 // toggle variables have to be defined globally for some reason
@@ -64,12 +65,12 @@ void toggleTransmission() {
   transmissionToggle = !transmissionToggle;
 }
 
-// function that toggles one pneumatic flap
+// function that toggles the right pneumatic flap
 void toggleWing1() {
   wing1Toggle = !wing1Toggle;
 }
 
-//
+// function that toggles the left pneumatic flap
 void toggleWing2() {
   wing2Toggle = !wing2Toggle;
 }
@@ -78,10 +79,14 @@ void toggleWing2() {
 void setToggles() {
     // toggles the flinger if the A button is pressed
     Controller2.ButtonA.pressed(toggleFlinger);
+    // toggles the arm speed with two buttons
     Controller2.ButtonL1.pressed(toggleArm);
     Controller2.ButtonR1.pressed(toggleArm);
+    // toggle the arm holding itself up
     Controller1.ButtonA.pressed(toggleArmHold);
+    // toggles the drive train speed
     Controller1.ButtonB.pressed(toggleDriveTrain);
+    // toggles the pnuematic flaps 
     Controller1.ButtonR2.pressed(toggleWing2);
     Controller1.ButtonL2.pressed(toggleWing1);
     Controller1.ButtonRight.pressed(toggleTransmission);

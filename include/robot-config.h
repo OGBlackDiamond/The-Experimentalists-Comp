@@ -16,6 +16,8 @@ extern motor turret;
 extern motor shoulder;
 extern motor elbow;
 extern motor flinger;
+extern motor lift1;
+extern motor lift2;
 extern digital_out wing1;
 extern digital_out wing2;
 

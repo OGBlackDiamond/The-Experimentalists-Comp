@@ -16,13 +16,17 @@ class Driver {
     }
 
     // this method will be called in the main method
-    void driverControl(bool toggleDriveTrain, bool _transmissionToggle) {
+    void driverControl(bool toggleDriveTrain, bool _transmissionToggle, bool wing1Toggle, bool wing2Toggle) {
         // refresh control stick values
         updateControls(toggleDriveTrain);
         // spin the motors
         spinDriveTrain();
         // set the drivetrain toggle
         transmissionToggle = _transmissionToggle;
+
+        // toggles the wings
+        wing1.set(wing1Toggle);
+        wing2.set(wing2Toggle);
     }
 
     // spins the left drive train for a distance

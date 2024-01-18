@@ -16,11 +16,13 @@ motor leftBackDrive = motor(PORT20, ratio18_1, true);
 motor rightFrontDrive = motor(PORT1, ratio18_1, false);
 motor rightBackDrive = motor(PORT10, ratio18_1, false);
 //motor leftTrans = motor(PORTX, ratio18_1, false);
-//motor rightTrans = motor(PORTY, ratio18_1, true);
+//motor rightTrans = motor(PORTX, ratio18_1, true);
 motor turret = motor(PORT15, ratio18_1, false);
 motor shoulder = motor(PORT6, ratio6_1, false);
 motor elbow = motor(PORT3, ratio18_1, false);
 motor flinger = motor(PORT2, ratio36_1, false);
+motor lift1 = motor(PORTX, ratio6_1, false);
+motor lift2 = motor(PORTX, ratio6_1, true);
 digital_out wing1 = digital_out(Brain.ThreeWirePort.C);
 digital_out wing2 = digital_out(Brain.ThreeWirePort.B);
 

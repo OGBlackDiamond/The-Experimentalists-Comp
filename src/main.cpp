@@ -142,8 +142,8 @@ void usercontrol(void) {
   // User control code here, inside the loop
   setToggles();
   while (1) {
-    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle, wing1Toggle, wing2Toggle);
-    driver.driverControl(driveTrainToggle, transmissionToggle);
+    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle);
+    driver.driverControl(driveTrainToggle, transmissionToggle, wing1Toggle, wing2Toggle);
 
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo

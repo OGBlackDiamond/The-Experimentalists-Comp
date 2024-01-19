@@ -95,7 +95,7 @@ class Arm {
 
             // updates the controls for the lift (and the elbow, if legacy mode is enabled)
             if (legacyMode) {
-                legacyControlUpdate();
+                legacyControlUpdate(armToggle, armHoldToggle);
             } else {
                 primaryControlUpdate();
             }
@@ -110,7 +110,8 @@ class Arm {
         }
 
         void primaryMotorControl() {
-            lift.spin(forward);
+            lift1.spin(forward);
+            lift2.spin(forward);
         }
 
 
@@ -126,7 +127,7 @@ class Arm {
         // [[LEGACY]]
         // handles controller updates for legacy iderations of the robot
         // i.e. if the elbow apparatus were to be reattached
-        void legacyControlUpdate() {
+        void legacyControlUpdate(bool armToggle, bool armHoldToggle) {
             // handles all elbow function control
             elbow.setStopping(armHoldToggle ? coast : hold);
             elbowSpin = armToggle ? Controller2.Axis3.position() / 2 : Controller2.Axis3.position();

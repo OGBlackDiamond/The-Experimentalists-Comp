@@ -13,12 +13,17 @@ class Auto {
 
         // example auto program
         void auto1() {
+            flinger.setVelocity(60, percent);
+            flinger.spin(forward);
+        }
+
+        void auto2() {
             // sets the drive speed to 25%
             setDriveVelocity(25);
             // moves forward 14 inches
             move(14);
             // turns 50 degrees clockwise
-            turn(50);
+            turn(-50);
             // sets the drive speed to 100%
             setDriveVelocity(100);
             // moves forward 13 inches
@@ -35,10 +40,17 @@ class Auto {
             setDriveVelocity(25);
             // moves backward 12 inches
             move(-12);
-        }
-
-        void auto2() {
-
+            // spin 180 degrees
+            turn(180);
+            // lowers the left wing
+            wing2.set(true);
+            setDriveVelocity(50);
+            // move twelve inches against the bar
+            move(12);
+            // turn 50 degrees counterclockwise
+            turn(50);
+            // raise the left wing
+            wing2.set(false);
         }
 
     private:

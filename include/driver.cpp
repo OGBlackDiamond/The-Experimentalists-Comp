@@ -4,8 +4,11 @@
 */
 class Driver {
 
-    // ring gear on joysticks
+
+    // TRANSMISSION CONROL REFERENCE //
+
     // torque: sun gear full, ring gear stop
+    // 2/3: both full - opposite direction
     // speed: both full
 
     public:
@@ -17,13 +20,11 @@ class Driver {
         }
 
         // this method will be called in the main method
-        void driverControl(bool toggleDriveTrain, bool _transmissionToggle, bool wing1Toggle, bool wing2Toggle) {
+        void driverControl(bool toggleDriveTrain,  bool wing1Toggle, bool wing2Toggle) {
             // refresh control stick values
             updateControls(toggleDriveTrain);
             // spin the motors
             spinDriveTrain();
-            // set the drivetrain toggle
-            transmissionToggle = _transmissionToggle;
 
             // toggles the wings
             wing1.set(wing1Toggle);
@@ -32,14 +33,12 @@ class Driver {
 
         // spins the left drive train for a distance
         void leftDriveSpinFor(double degrees) {
-            leftFrontDrive.spinFor(forward, degrees, turns, false);
-            leftBackDrive.spinFor(forward, degrees, turns, false);
+            
         }
 
         // spins the left drive train for a distance
         void rightDriveSpinFor(double degrees) {
-            rightFrontDrive.spinFor(forward, degrees, turns, false);
-            rightBackDrive.spinFor(forward, degrees, turns, true);
+            
         }
 
         // destroys the class object
@@ -56,34 +55,21 @@ class Driver {
         bool hookUp;
         bool hookDown;
 
-        // transmission toggle variable
-        bool transmissionToggle;
-
         // spins all drivetrain motors
         void spinDriveTrain() {
-            if (transmissionToggle) {
-                // rightTrans.spin(forward);
-                // leftTrans.spin(forward);
-            } else {
-                rightFrontDrive.spin(forward);
-                rightBackDrive.spin(forward);
-                leftFrontDrive.spin(forward);
-                leftBackDrive.spin(forward);
-            }
+
         }
 
         // sets the velocity of the right drive train
         void rightDriveVelocity(double rightDrive) {
-            rightFrontDrive.setVelocity(transmissionToggle ? 0 : rightDrive, percent);
-            rightBackDrive.setVelocity(transmissionToggle ? 0 : rightDrive, percent);
-            // rightTrans.setVelocity(transmissionToggle ? rightDrive : 0, percent);
+            rightSun = rightDrive;
+            rightRing = (rightSun.current(percent) / rightSun.velocity(percent)) * rightDrive;
         }
 
         // sets the velocity of the left drive train
         void leftDriveVelocity(double leftDrive) {
-            leftFrontDrive.setVelocity(transmissionToggle ? 0 : leftDrive, percent);
-            leftBackDrive.setVelocity(transmissionToggle ? 0 : leftDrive, percent);
-            // leftTrans.setVelocity(transmissionToggle ? leftDrive : 0, percent);
+            leftSun = leftDrive;
+            leftRing = (leftSun.current(percent) / leftSun.velocity(percent)) * leftDrive;
         }
 
         // update the controller values 
@@ -94,5 +80,10 @@ class Driver {
             // apply them to the current motor velocity
             rightDriveVelocity(rightDrive);
             leftDriveVelocity(leftDrive);
+        }
+
+        // takes the absolute value of a number
+        double absoluteValue(double num) {
+            return num >= 0 ? 0 : num * -1;
         }
 };

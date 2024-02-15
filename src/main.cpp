@@ -28,7 +28,6 @@ Auto autonomousCode(driver);
 
 // toggle variables have to be defined globally for some reason
 bool driveTrainToggle = false;
-bool transmissionToggle = false;
 bool flingerToggle = false;
 bool armToggle = false;
 bool armHoldToggle = false;
@@ -60,11 +59,6 @@ void toggleDriveTrain() {
   driveTrainToggle = !driveTrainToggle;
 }
 
-// function that toggles the drivetrain and transmission functionality
-void toggleTransmission() {
-  transmissionToggle = !transmissionToggle;
-}
-
 // function that toggles the right pneumatic flap
 void toggleWing1() {
   wing1Toggle = !wing1Toggle;
@@ -89,7 +83,6 @@ void setToggles() {
     // toggles the pnuematic flaps 
     Controller1.ButtonR2.pressed(toggleWing2);
     Controller1.ButtonL2.pressed(toggleWing1);
-    Controller1.ButtonRight.pressed(toggleTransmission);
 }
 
 // define your global instances of motors and other devices here
@@ -143,7 +136,7 @@ void usercontrol(void) {
   setToggles();
   while (1) {
     arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle);
-    driver.driverControl(driveTrainToggle, transmissionToggle, wing1Toggle, wing2Toggle);
+    driver.driverControl(driveTrainToggle, wing1Toggle, wing2Toggle);
 
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo

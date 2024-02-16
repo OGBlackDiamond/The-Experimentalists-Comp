@@ -33,12 +33,12 @@ class Driver {
 
         // spins the left drive train for a distance
         void leftDriveSpinFor(double degrees) {
-            
+            leftSun.spinFor(forward, degrees, turns, false);
         }
 
         // spins the left drive train for a distance
         void rightDriveSpinFor(double degrees) {
-            
+            leftSun.spinFor(forward, degrees, turns, false);
         }
 
         // destroys the class object
@@ -51,25 +51,44 @@ class Driver {
         int leftDrive;
         int rightDrive;
 
-        // variables that control the hook
-        bool hookUp;
-        bool hookDown;
-
         // spins all drivetrain motors
         void spinDriveTrain() {
-
+            // applies set speeds to the transmission motors
+            rightRing.spin(forward);
+            leftRing.spin(forward);
+            rightSun.spin(forward);
+            leftSun.spin(forward);
         }
 
         // sets the velocity of the right drive train
         void rightDriveVelocity(double rightDrive) {
-            rightSun = rightDrive;
-            rightRing = (rightSun.current(percent) / rightSun.velocity(percent)) * rightDrive;
+            double rightSunVelocity = rightSun.velocity(percent);
+            double rightSunCurrent = rightSun.current(percent);
+
+            if (rightSunCurrent > 80 && rightSunVelocity < 20) {
+                rightRingSpeed = 0;
+            } else {
+                rightRingSpeed = rightSunCurrent;
+            }
+
+            rightSun.setVelocity(rightDrive, percent);
+            rightRing.setVelocity(rightRingSpeed, percent)
+
         }
 
         // sets the velocity of the left drive train
         void leftDriveVelocity(double leftDrive) {
-            leftSun = leftDrive;
-            leftRing = (leftSun.current(percent) / leftSun.velocity(percent)) * leftDrive;
+            double leftSunVelocity = leftSun.velocity(percent);
+            double leftSunCurrent = leftSun.current(percent);
+
+            if (leftSunCurrent > 80 && leftSunVelocity < 20) {
+                leftRingSpeed = 0;
+            } else {
+                leftRingSpeed = leftSunCurrent;
+            }
+
+            leftSun.setVelocity(leftDrive, percent);
+            leftRing.setVelocity(leftRingSpeed, percent)
         }
 
         // update the controller values 

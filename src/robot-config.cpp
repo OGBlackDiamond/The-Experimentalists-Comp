@@ -11,10 +11,10 @@ brain  Brain;
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);
 
-motor leftRing = motor(PORT17, ratio18_1, false);
+motor leftRing = motor(PORT17, ratio18_1, true);
 motor leftSun = motor(PORT18, ratio18_1, false);
-motor rightRing = motor(PORT19, ratio18_1, true);
-motor rightSun = motor(PORT20, ratio18_1, true);
+motor rightRing = motor(PORT19, ratio18_1, false);
+motor rightSun = motor(PORT20, ratio18_1, false);
 motor shoulder = motor(PORT6, ratio6_1, false);
 motor flinger = motor(PORT3, ratio36_1, false);
 motor lift1 = motor(PORT1, ratio6_1, true);

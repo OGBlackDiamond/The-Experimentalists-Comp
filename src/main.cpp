@@ -28,6 +28,8 @@ Auto autonomousCode(driver);
 
 // toggle variables have to be defined globally for some reason
 bool driveTrainToggle = false;
+bool autoTransToggle = true;
+bool torqueToggle = false;
 bool flingerToggle = false;
 bool armToggle = false;
 bool armHoldToggle = false;
@@ -38,6 +40,20 @@ bool wing2Toggle = false;
 
 // other functions
 
+// function that toggles the drivetrain speed
+void toggleDriveTrain() {
+  driveTrainToggle = !driveTrainToggle;
+}
+
+// function that toggles the automatic transmission functionality
+void toggleTransmission() {
+  autoTransToggle = !autoTransToggle;
+}
+
+// function that toggles the torque mode in the transmission
+void toggleTorque() {
+  torqueToggle = !torqueToggle;
+}
 // function that toggles the flinger
 void toggleFlinger() {
   flingerToggle = !flingerToggle;
@@ -54,11 +70,6 @@ void toggleArmHold() {
   armHoldToggle = !armHoldToggle;
 }
 
-// function that toggles the drivetrain speed
-void toggleDriveTrain() {
-  driveTrainToggle = !driveTrainToggle;
-}
-
 // function that toggles the right pneumatic flap
 void toggleWing1() {
   wing1Toggle = !wing1Toggle;
@@ -71,18 +82,24 @@ void toggleWing2() {
 
 // sets the toggle functions
 void setToggles() {
+    // toggles the drive train speed
+    Controller1.ButtonB.pressed(toggleDriveTrain);
+    // toggles the transmission between automatic and manual
+    Controller1.ButtonX.pressed(toggleTransmission)
+    // toggles the torque mode for manual transmission
+    Controller1.ButtonY.pressed(toggleTorque);
+
+    // toggle the arm holding itself up
+    Controller1.ButtonA.pressed(toggleArmHold);
+
     // toggles the flinger if the A button is pressed
     Controller2.ButtonA.pressed(toggleFlinger);
     // toggles the arm speed with two buttons
     Controller2.ButtonL1.pressed(toggleArm);
     Controller2.ButtonR1.pressed(toggleArm);
-    // toggle the arm holding itself up
-    Controller1.ButtonA.pressed(toggleArmHold);
-    // toggles the drive train speed
-    Controller1.ButtonB.pressed(toggleDriveTrain);
     // toggles the pnuematic flaps 
-    Controller1.ButtonR2.pressed(toggleWing2);
-    Controller1.ButtonL2.pressed(toggleWing1);
+    Controller2.ButtonR2.pressed(toggleWing2);
+    Controller2.ButtonL2.pressed(toggleWing1);
 }
 
 // define your global instances of motors and other devices here
@@ -135,8 +152,8 @@ void usercontrol(void) {
   // User control code here, inside the loop
   setToggles();
   while (1) {
-    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle);
-    driver.driverControl(driveTrainToggle, wing1Toggle, wing2Toggle);
+    arm.manipulatorControl(armToggle, armHoldToggle, flingerToggle, wing1Toggle, wing2Toggle);
+    driver.driverControl(driveTrainToggle, transmissionToggle, torqueToggle);
 
     // This is the main execution loop for the user control program.
     // Each time through the loop your program should update motor + servo

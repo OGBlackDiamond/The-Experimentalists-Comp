@@ -20,15 +20,16 @@ class Driver {
         }
 
         // this method will be called in the main method
-        void driverControl(bool toggleDriveTrain,  bool wing1Toggle, bool wing2Toggle) {
+        void driverControl(bool _driveTrainToggle, bool _transmissionToggle, bool _torqueToggle) {
+            // updates the toggle variables
+            driveTrainToggle = _driveTrainToggle;
+            transmissionToggle = _transmissionToggle;
+            torqueToggle = _torqueToggle;
+
             // refresh control stick values
-            updateControls(toggleDriveTrain);
+            updateControls();
             // spin the motors
             spinDriveTrain();
-
-            // toggles the wings
-            wing1.set(wing1Toggle);
-            wing2.set(wing2Toggle);
         }
 
         // spins the left drive train for a distance
@@ -51,6 +52,13 @@ class Driver {
         int leftDrive;
         int rightDrive;
 
+        // define torque toggle 
+        bool torqueToggle = false;
+
+        // define toggles
+        bool driveTrainToggle = false;
+        bool transmissionToggle = true;
+
         // spins all drivetrain motors
         void spinDriveTrain() {
             // applies set speeds to the transmission motors
@@ -60,8 +68,35 @@ class Driver {
             leftSun.spin(forward);
         }
 
+        // update the controller values 
+        void updateControls() {
+            // get the current reading from the stick values
+            rightDrive = driveTrainToggle ? Controller1.Axis3.position() * 0.75 : Controller1.Axis3.position();
+            leftDrive = driveTrainToggle ? Controller1.Axis2.position() * 0.75 : Controller1.Axis2.position();
+            // apply them to the current motor velocity
+            rightDriveVelocity();
+            leftDriveVelocity();
+        }
+
         // sets the velocity of the right drive train
-        void rightDriveVelocity(double rightDrive) {
+        void rightDriveVelocity() {
+            if (transmissionToggle) {
+                rightAutomatic();
+            } else {
+                rightManual();
+            }
+        }
+
+        // sets the velocity of the left drive train
+        void leftDriveVelocity() {
+            if (transmissionToggle) {
+                leftAutomatic();
+            } else {
+                leftManual();
+            }
+        }
+
+        void rightAutomatic() {
             double rightSunVelocity = rightSun.velocity(percent);
             double rightSunCurrent = rightSun.current(percent);
 
@@ -72,12 +107,10 @@ class Driver {
             }
 
             rightSun.setVelocity(rightDrive, percent);
-            rightRing.setVelocity(rightRingSpeed, percent)
-
+            rightRing.setVelocity(rightRingSpeed, percent);
         }
 
-        // sets the velocity of the left drive train
-        void leftDriveVelocity(double leftDrive) {
+        void leftAutomatic() {
             double leftSunVelocity = leftSun.velocity(percent);
             double leftSunCurrent = leftSun.current(percent);
 
@@ -88,19 +121,28 @@ class Driver {
             }
 
             leftSun.setVelocity(leftDrive, percent);
-            leftRing.setVelocity(leftRingSpeed, percent)
+            leftRing.setVelocity(leftRingSpeed, percent);
         }
 
-        // update the controller values 
-        void updateControls(bool driveTrainToggle) {
-            // get the current reading from the stick values
-            rightDrive = driveTrainToggle ? Controller1.Axis3.position() * 0.75 : Controller1.Axis3.position();
-            leftDrive = driveTrainToggle ? Controller1.Axis2.position() * 0.75 : Controller1.Axis2.position();
-            // apply them to the current motor velocity
-            rightDriveVelocity(rightDrive);
-            leftDriveVelocity(leftDrive);
+
+        void rightManual() {
+            rightSun.setVelocity(rightDrive);
+            if (torqueToggle) {
+                rightRing.setVelocity(0, percent);
+            } else {
+                rightRing.setVelocity(rightDrive, percent);
+            }
+
         }
 
+        void leftManual() {
+            leftSun.setVelocity(leftDrive);
+            if (torqueToggle) {
+                leftRing.setVelocity(0, percent);
+            } else {
+                leftRing.setVelocity(leftDrive, percent);
+            }
+        }
         // takes the absolute value of a number
         double absoluteValue(double num) {
             return num >= 0 ? 0 : num * -1;

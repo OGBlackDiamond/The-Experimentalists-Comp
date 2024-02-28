@@ -73,11 +73,6 @@ class Auto {
             driveTrain.rightDriveSpinFor((degrees / 90) * -1);
         }
 
-        // turns the turret a specifc degree amount
-        void turnTurret(double deg) {
-            turret.spinFor(forward, deg, degrees);
-        }
-
         // turns the shoulder a specific degree amount
         void moveShoulder(double deg) {
             shoulder.spinFor(forward, deg, degrees);
@@ -91,27 +86,14 @@ class Auto {
 
         // sets the motor holding functions
         void setMotorFunctions() {
-            turret.setStopping(hold);
             shoulder.setStopping(hold);
-            elbow.setStopping(hold);
             lift1.setStopping(hold);
             lift2.setStopping(hold);
         }
 
         // sets the drivetrain velocity
         void setDriveVelocity(int driveSpeed) {
-            leftBackDrive.setVelocity(driveSpeed, percent);
-            leftFrontDrive.setVelocity(driveSpeed, percent);
-            rightBackDrive.setVelocity(driveSpeed, percent);
-            rightFrontDrive.setVelocity(driveSpeed, percent);
-            rightTrans.setVelocity(driveSpeed, percent);
-            leftTrans.setVelocity(driveSpeed, percent);
-        }
-
-        // [[LEGACY]]
-        // moves the elbow by a specifc degree amount
-        void moveElbow(double deg) {
-            elbow.spinFor(forward, deg, degrees);
+            
         }
 
         //
